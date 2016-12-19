@@ -1,0 +1,23 @@
+---
+- name: Add Nginx Repository
+  apt_repository: repo='ppa:nginx/stable' state=present
+  register: ppastable
+
+- name: Install Nginx
+  apt: pkg=nginx state=installed update_cache=true
+  when: ppastable|success
+  register: nginxinstalled
+
+- name: Disable Default Site
+  file: dest=/etc/nginx/sites-enabled/default state=absent
+  when: nginxinstalled|success
+
+- name: copy htpasswd
+  copy: src=.htpasswd dest=/etc/nginx/.htpasswd
+  register: pwdcopied
+
+- name: config nginx
+  copy: src=nginx.conf dest=/etc/nginx/nginx.conf owner=root group=root
+  when: pwdcopied|success
+  notify:
+    - Restart Nginx

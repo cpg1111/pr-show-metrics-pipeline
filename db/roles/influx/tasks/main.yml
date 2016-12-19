@@ -1,0 +1,34 @@
+---
+- name: get-influx-dpkg
+  get_url: url=https://dl.influxdata.com/influxdb/releases/influxdb_1.1.1_amd64.deb dest=/opt/ validate_certs=no
+  register: getinfluxdpkg
+
+- name: install-dpkg
+  apt: deb=/opt/influxdb_1.1.1_amd64.deb
+  when: getinfluxdpkg | success
+  register: installdpkg
+
+- name: start-influxdb
+  service: name=influxdb state=started
+  when: installdpkg | success
+  register: startinflux
+
+- name: get-chronograf-dpkg
+  get_url: url=https://dl.influxdata.com/chronograf/releases/chronograf_1.1.0~beta3_amd64.deb dest=/opt/ validate_certs=no
+  when: startinflux | success
+  register: getchronografdpkg
+
+- name: install-chronograf
+  apt: deb=/opt/chronograf_1.1.0~beta3_amd64.deb
+  when: getchronografdpkg | success
+  register: installchronograf
+
+- name: get-kapacitor-dpkg
+  get_url: url=https://dl.influxdata.com/kapacitor/releases/kapacitor_1.1.1_amd64.deb dest=/opt/ validate_certs=no
+  when: startchronograf | success
+  register: getkapacitordpkg
+
+- name: install-kapacitor
+  apt: deb=/opt/kapacitor_1.1.1_amd64.deb
+  when: getkapacitordpkg | success
+  register: installkapacitor

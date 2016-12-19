@@ -1,0 +1,19 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+$ip = ENV['VAGRANT_IP'] || "172.22.22.22"
+
+Vagrant.configure(2) do |config|
+	config.vm.box = "phusion/ubuntu-14.04-amd64"
+
+	config.vm.network :private_network, ip: $ip
+
+	config.vm.provision "ansible" do |ansible|
+		ansible.playbook = "./main.yml"
+		ansible.vault_password_file = "~/.keys/ansible.vault"
+		# ansible.verbose = 'vvvv'
+	end
+
+    config.vm.synced_folder ".", "/vagrant", disabled: true
+    config.vm.synced_folder "scripts", "/opt/scripts", type: :nfs
+end

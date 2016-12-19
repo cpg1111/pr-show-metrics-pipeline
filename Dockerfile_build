@@ -1,0 +1,5 @@
+FROM golang:1.7
+RUN apt-get update && apt-get install -y build-essential
+COPY . $GOPATH/src/github.com/cpg1111/pr-show-metrics-pipeline/
+WORKDIR $GOPATH/src/github.com/cpg1111/pr-show-metrics-pipeline
+ENTRYPOINT ["make"]
