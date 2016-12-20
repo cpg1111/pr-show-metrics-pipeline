@@ -1,8 +1,10 @@
-hash: 29cc0567adb2311de658312eb3786f541155760132715d98854de0b8c000a0b8
-updated: 2016-12-19T18:00:16.294626611-05:00
+hash: c97f38d2a0819802cf0b83b3d019bfd9e8cc956a3b32ad9dec6929cdc8fb3e9f
+updated: 2016-12-19T21:26:58.856199729-05:00
 imports:
 - name: github.com/influxdata/influxdb
   version: e47cf1f2e83a02443d7115c54f838be8ee959644
   subpackages:
   - client/v2
+- name: github.com/jteeuwen/go-bindata
+  version: bbd0c6e271208dce66d8fda4bc536453cd27fc4a
 testImports: []
