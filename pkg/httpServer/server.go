@@ -9,10 +9,14 @@ type Server struct {
 	http.Server
 }
 
-func New(proto, host string, port int) (*Server, error) {
+func New(proto, host, port string) *Server {
 	mux := http.NewServeMux()
+	mux.Handle("/assets/", StaticHandler{})
+	mux.Handle("/events/", Handler{})
 	return &Server{
-		Addr:    fmt.Sprintf("%s://%s:%d", proto, host, port),
-		Handler: mux,
+		http.Server{
+			Addr:    fmt.Sprintf("%s://%s:%s", proto, host, port),
+			Handler: mux,
+		},
 	}
 }
