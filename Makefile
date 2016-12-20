@@ -4,6 +4,8 @@ all: build
 
 build:
 	glide install
+	mkdir -p www/
+	go-bindata -o www/assets.go assets/
 	go build -o ./dist/pr-metrics main.go
 
 test:
